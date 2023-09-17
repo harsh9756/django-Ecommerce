@@ -1,0 +1,90 @@
+{% extends 'index.html' %}
+</style>
+{% block title %}
+<title>TrendCraze | Product</title>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div id="carouselExampleIndicators" class="carousel     slide col-lg-4 col-md-8 col-12">
+            <div class="carousel-inner">
+                <div class="carousel-item my-2 active">
+                    <img src={{data.banPic.url}} width="80%" style="margin-left: 10%;" alt="..." height="400px">
+                </div>
+                {% for i in pic %}
+                <div class="carousel-item my-2">
+                    <img src={{i.img.url}} width="80%" style="margin-left: 10%;" alt="..." height="400px">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="container contamt-3 mb-5 col-lg-5 col-md-3 col-8 justify-content-center">
+
+            <h1>{{data.name}}</h1>
+            <span class="price">
+                <h3 style="display: Inline;">Price: </h3><strike>Rs{{data.baseprice}}</strike>&nbsp;
+            </span>
+            <span class="price">Rs{{data.finalPrice}}</span>
+            <table class="table table-light table-striped table-hover">
+                <tr>
+                    <th>Main-Category</th>
+                    <td>{{data.maincat}}</td>
+                </tr>
+                <tr>
+                    <th>Brand</th>
+                    <td>{{data.brand}}</td>
+                </tr>
+                <tr>
+                    <th>Base-Price</th>
+                    <td>Rs {{data.baseprice}}</td>
+                </tr>
+                <tr>
+                    <th>Discount</th>
+                    <td>Rs {{data.discount}}</td>
+                </tr>
+                <tr>
+                    <th>Color</th>
+                    <td>{{data.color}}</td>
+                </tr>
+                <tr>
+                    <th>Size</th>
+                    <td>{{data.size}}</td>
+                </tr>
+                <tr>
+                    <th>Stock</th>
+                    {% if Product.stock%}
+                    <td>In Stock</td>
+                    {% else %}
+                    <td>Out of Stock</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{data.desc}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <form action="/addcart/{{data.id}}" method="POST">
+                            {% csrf_token %}
+                            <input type="number" name="q" class="form-control" min="1" value="1">
+                    </td>
+                    <td>
+                        <a type="submit" class="btn btn-primary">Buy Now</a>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

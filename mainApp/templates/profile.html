@@ -1,0 +1,171 @@
+{% extends 'index.html' %}
+{% load cart%}
+{% block title %}
+<title>TrendCraze | Profile</title>
+<style>
+    h5 {
+        margin-bottom: 0px;
+    }
+
+    .nav-m a {
+        background-color: rgb(242, 134, 134);
+    }
+</style>
+
+{% endblock %}
+{% block body %}
+
+<div class="container border border-secondary py-2 mb-3">
+    <h4 class="p-2" style="background-color: #2b7a78;">User Details:-</h4>
+    <table class="table table-light table-hover">
+        <tr>
+            <th>Name</th>
+            <td>{{data.name}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{data.email}}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{data.username}}</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>{{data.phone}}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{data.city}}</td>
+        </tr>
+        <tr>
+            <th>State</th>
+            <td>{{data.state}}</td>
+        </tr>
+        <tr>
+            <th>Pin</th>
+            <td>{{data.pin}}</td>
+        </tr>
+    </table>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <a href="/update/" class="btn btn-primary">Update Profile</a>
+    </form>
+</div>
+
+<div class="row ">
+    <div class="col-lg-6">
+        <div class="card">
+            <div style="background-color: #3ba8a4;" class=" card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-m">
+                        <h5><a class="nav-link mx-2 text-dark" href="#orders" data-bs-toggle="tab">Purchase History</a>
+                        </h5>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="orders">
+                        <div class="container-fluid">
+                            <div class="container mt-5">
+                                <table class="table table-striped border border-secondary">
+                                    <thead>
+                                        <tr style="background-color: #2b7a78;">
+                                            <th>Order Date</th>
+                                            <th>Product Name(s)</th>
+                                            <th>Order Total</th>
+                                            <th>Payment Status</th>
+                                            <th>Mode of Payment</th>
+                                            <th>Order Status</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in checkout%}
+                                        <tr>
+                                            <td>{{i.time}}</td>
+                                            <td>{% for j in request|products:i %}
+                                                <div>
+                                                    {{j.name}} <a href="/product/{{j.id}}"><span class="material-symbols-outlined" title="view">
+                                                        visibility
+                                                    </span></a> {% endfor%}
+                                                </div>
+                                            </td>
+                                            <td>Rs {{i.finalAmt}}</td>
+                                            <td>{{request|payStatus:i}}</td>
+                                            <td>{{request|payMode:i}}</td>
+                                            <td>{{request|orderStatus:i}}</td>
+                                            <td><a href="/cancelorder/{{i.id}}">Cancel Order</a></td>
+                                            <td></td>
+                                        </tr>
+                                        {% endfor %}
+                                        <!-- Add more rows as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card ">
+            <div style="background-color: #3ba8a4;" class=" card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-m">
+                    <li class="nav-m">
+                        <h5><a class="nav-link mx-2 text-dark" href="#products" data-bs-toggle="tab">Products</a>
+                        </h5>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="products">
+                        <div class="container-fluid">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <a href="/addprod/" class="btn btn-primary">Sell with US.</a>
+                            </form>
+                            <div class="container mt-2">
+                                <div class="row">
+                                    {% for i in prod%}
+                                    <div class="col-lg-4 col-md-3 col-sm-4 col-6 mt-2">
+                                        <div class="card card-container">
+                                            <img src="{{i.banPic.url}}" class="card-img-top px-2" alt="Card Image"
+                                                height="170px">
+                                            <div class="card-body">
+                                                <h5 class="card-title" style="height: 24px;">{{i.name}}</h5>
+                                            </div>
+                                            <!-- Card detail to be displayed on hover -->
+                                            <div class="card-detail">
+                                                <p>{{i.desc}}</p>
+                                                <abbr title="delete">
+                                                    <a href="/delproduct/{{i.id}}/" class="proddel">
+                                                        <span class="material-symbols-outlined">delete</span>
+                                                    </a>
+                                                </abbr>
+                                                <abbr title="edit">
+                                                    <a href="/editProduct/{{i.id}}" class="prodedit">
+                                                        <span class="material-symbols-outlined">edit</span>
+                                                    </a>
+                                                </abbr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

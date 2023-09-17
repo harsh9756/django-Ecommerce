@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+{% load cart%}
+{% block title %}
+<title>TrendCraze | Checkout</title>
+{% endblock %}
+{% block body %}
+{% for i in messages%}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{i}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+<div class="container mt-5">
+    <h2>Checkout</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Billing Information</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your name"
+                        value="{{buyer.name}}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email"
+                        value="{{buyer.email}}">
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address:</label>
+                    <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
+                </div>
+                <!-- Add more billing information fields as needed -->
+
+                <h1>Select a Payment Method</h1>
+
+                 <label for="paymentMethod">Payment Method:</label>
+                <select name="mode" id="paymentMethod" class="form-control">
+                    <option value="online">Online</option>
+                    <option value="COD">COD</option>
+                </select> 
+                <br>
+                <button id="cod_btn" type="submit" class="btn btn-primary" style="display: none;">Place Order</button>
+                <button class="btn btn-primary" type="submit" id="rzp-button1" style="display: block;">Pay with Razorpay</button>
+            </form>
+        </div> 
+        <div class="col-md-6">
+            <h3>Order Summary</h3>
+            <!-- Display the user's shopping cart items and total here -->
+            {% for items in cart %}
+            <div class="card">
+                <div class="card-body">
+                    <!-- Example item -->
+                    <h5 class="card-title">{{items.prodId.name}}</h5>
+                    <p class="card-text">Price: Rs {{items.prodId.finalPrice}}</p>
+                    <p class="card-text">Quantity: {{items.q}}</p>
+                    <p class="card-text">Subtotal: Rs {{request|mult:items}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Calculate and display the total price here -->
+            <h4 class="mt-3">Total: Rs {{finalAmt}}</h4>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+function showbtns(){
+    if(document.getElementById('paymentMethod').value=="COD"){
+        document.getElementById('rzp-button1').style.display='None';
+        document.getElementById('cod_btn').style.display='block';
+    }
+    else{
+        document.getElementById('cod_btn').style.display='None';
+        document.getElementById('rzp-button1').style.display='block';
+    }
+}
+
+var options = {
+    "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
+    "amount": "{{amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Website name",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        window.open('/success/'+response.razorpay_payment_id+"/"+response.razorpay_order_id+"/"+response.razorpay_signature)
+    },
+    "prefill": {
+        "name": "{{user.name}}",
+        "email": "{{user.email}}",
+        "contact": "{{user.phone}}"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        // alert(response.error.code);
+        // alert(response.error.description);
+        // alert(response.error.source);
+        // alert(response.error.step);
+        // alert(response.error.reason);
+        // alert(response.error.metadata.order_id);
+        // alert(response.error.metadata.payment_id);
+        alert('Payment failed');
+});
+rzp1.open();
+e.preventDefault();
+</script>
+{% endblock %}

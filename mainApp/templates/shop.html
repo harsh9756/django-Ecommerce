@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{%block title%}
+<title>TrendCraze | Shop Now</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mx-2">
+    <div class="row">
+        <div class="container-fluid col-lg-2 my-1" style="border-radius: 7px; padding: 0;">
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                aria-controls="offcanvasExample">
+                Categories
+            </a>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <h3 class="text-center bg-dark text-light py-1 mt-2" style="border-radius: 5px;">Main-Category</h3>
+                    <div class="list-group">
+                        {% for i in maincat %}
+                        <a href="/shop/{{i.name}}/{{brn}}/" class="list-group-item list-group-item-action "aria-current="true">{{i.name}}</a>
+                        {% endfor%}
+                    </div>
+                    <h3 class="text-center bg-dark text-light py-1 mt-2" style="border-radius: 5px; padding-top:4px ;">
+                        Brand
+                    </h3>
+                    <div class="list-group">
+                        {% for i in brand%}
+                        <a href="/shop/{{mc}}/{{i.name}}/" class="list-group-item list-group-item-action "aria-current="true">{{i.name}}</a>
+                        {% endfor%}
+                    </div>
+                    <a class="btn btn-primary  my-3 w-50 mx-5"
+                        href="/shop/all/all/">Reset</a>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------- Product  ------------------->
+        <div class="container-fluid col-lg-10 ">
+            <div class="row">
+                {% for i in data%}
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mt-2">
+                            <div class="card">
+                                <img src={{i.banPic.url}} class="card-img-top mt-1 px-2" alt="..." height="150px">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="height:35px ;">{{i.name}}</h5>
+                                    <p class="card-text">Rs<strike> {{i.baseprice}}</strike> {{i.finalPrice}}</p>
+                                    <a href="/product/{{i.id}}/" class="btn btn-primary w-100">View</a>
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
