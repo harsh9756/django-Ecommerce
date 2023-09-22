@@ -1,30 +1,105 @@
 {% extends 'index.html' %}
-{% load cart%}
+{% load cart %}
 {% block title %}
-<title>TrendCraze | Profile</title>
+<title>TrendCraze | Cart</title>
 <style>
-    h5 {
-        margin-bottom: 0px;
+    body {
+        font-family: Arial, sans-serif;
     }
 
-    .nav-m a {
-        background-color: rgb(242, 134, 134);
+    h4 {
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #2b7a78;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        background-color: #2b7a78;
+        color: #fff;
+    }
+
+    .btn:hover {
+        background-color: #237767;
+    }
+
+    .table {
+        border: 2px solid #2b7a78;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #2b7a78;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f2f2f2;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background-color: #3ba8a4;
+        color: #fff;
+    }
+
+    .purchase-history-table {
+        border: 1px solid #2b7a78;
+    }
+
+    .purchase-history-table th,
+    .purchase-history-table td {
+        border: 1px solid #2b7a78;
+        text-align: center;
+    }
+
+    .purchase-history-table th {
+        background-color: #2b7a78;
+        color: #fff;
+        padding: 8px;
+    }
+
+    .purchase-history-table td {
+        padding: 8px;
+    }
+
+    .product-card {
+        border: 1px solid #2b7a78;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .product-card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .product-card h5 {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
     }
 </style>
-
 {% endblock %}
 {% block body %}
-
-<div class="container border border-secondary py-2 mb-3">
-    <h4 class="p-2" style="background-color: #2b7a78;">User Details:-</h4>
+<button onclick="goBack()"style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
+<div class="container-fluid py-2 mb-3">
+    <h4>User Details:</h4>
     <table class="table table-light table-hover">
         <tr>
             <th>Name</th>
-            <td>{{data.name}}</td>
+            <td>{{ data.name }}</td>
         </tr>
         <tr>
             <th>Email</th>
-            <td>{{data.email}}</td>
+            <td>{{ data.email }}</td>
         </tr>
         <tr>
             <th>Username</th>
@@ -46,6 +121,7 @@
             <th>Pin</th>
             <td>{{data.pin}}</td>
         </tr>
+        <!-- Add more user details as needed -->
     </table>
     <form action="" method="POST">
         {% csrf_token %}
@@ -53,114 +129,89 @@
     </form>
 </div>
 
-<div class="row ">
+<div class="row">
     <div class="col-lg-6">
         <div class="card">
-            <div style="background-color: #3ba8a4;" class=" card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-m">
-                        <h5><a class="nav-link mx-2 text-dark" href="#orders" data-bs-toggle="tab">Purchase History</a>
-                        </h5>
-                    </li>
-                </ul>
+            <div class="card-header">
+                <h5><a class="nav-link mx-2 text-dark" href="#orders" data-bs-toggle="tab">Purchase History</a></h5>
             </div>
             <div class="card-body">
-                <div class="tab-content">
-                    <div class="tab-pane fade" id="orders">
-                        <div class="container-fluid">
-                            <div class="container mt-5">
-                                <table class="table table-striped border border-secondary">
-                                    <thead>
-                                        <tr style="background-color: #2b7a78;">
-                                            <th>Order Date</th>
-                                            <th>Product Name(s)</th>
-                                            <th>Order Total</th>
-                                            <th>Payment Status</th>
-                                            <th>Mode of Payment</th>
-                                            <th>Order Status</th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for i in checkout%}
-                                        <tr>
-                                            <td>{{i.time}}</td>
-                                            <td>{% for j in request|products:i %}
-                                                <div>
-                                                    {{j.name}} <a href="/product/{{j.id}}"><span class="material-symbols-outlined" title="view">
-                                                        visibility
-                                                    </span></a> {% endfor%}
-                                                </div>
-                                            </td>
-                                            <td>Rs {{i.finalAmt}}</td>
-                                            <td>{{request|payStatus:i}}</td>
-                                            <td>{{request|payMode:i}}</td>
-                                            <td>{{request|orderStatus:i}}</td>
-                                            <td><a href="/cancelorder/{{i.id}}">Cancel Order</a></td>
-                                            <td></td>
-                                        </tr>
-                                        {% endfor %}
-                                        <!-- Add more rows as needed -->
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table purchase-history-table">
+                        <thead>
+                            <tr>
+                                <th>Order Date</th>
+                                <th>Product Name(s)</th>
+                                <th>Order Total</th>
+                                <th>Payment Status</th>
+                                <th>Mode of Payment</th>
+                                <th>Order Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Purchase History Content -->
+                            {% for i in checkout %}
+                            <tr>
+                                <td>{{i.time}}</td>
+                                <td>{% for j in request|products:i %}
+                                    <div>
+                                        {{j.name}} <a href="/product/{{j.id}}"><span class="material-symbols-outlined"
+                                                title="view">visibility</span></a>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td>Rs {{i.finalAmt}}</td>
+                                <td>{{request|payStatus:i}}</td>
+                                <td>{{request|payMode:i}}</td>
+                                <td>{{request|orderStatus:i}}</td>
+                                <td><a href="/cancelorder/{{i.id}}">Cancel Order</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-lg-6">
-        <div class="card ">
-            <div style="background-color: #3ba8a4;" class=" card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-m">
-                    <li class="nav-m">
-                        <h5><a class="nav-link mx-2 text-dark" href="#products" data-bs-toggle="tab">Products</a>
-                        </h5>
-                    </li>
-                </ul>
+        <div class="card">
+            <div class="card-header">
+                <h5><a class="nav-link mx-2 text-dark" href="#products" data-bs-toggle="tab">Selling Section</a></h5>
             </div>
             <div class="card-body">
-                <div class="tab-content">
-                    <div class="tab-pane fade" id="products">
-                        <div class="container-fluid">
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                <a href="/addprod/" class="btn btn-primary">Sell with US.</a>
-                            </form>
-                            <div class="container mt-2">
-                                <div class="row">
-                                    {% for i in prod%}
-                                    <div class="col-lg-4 col-md-3 col-sm-4 col-6 mt-2">
-                                        <div class="card card-container">
-                                            <img src="{{i.banPic.url}}" class="card-img-top px-2" alt="Card Image"
-                                                height="170px">
-                                            <div class="card-body">
-                                                <h5 class="card-title" style="height: 24px;">{{i.name}}</h5>
-                                            </div>
-                                            <!-- Card detail to be displayed on hover -->
-                                            <div class="card-detail">
-                                                <p>{{i.desc}}</p>
-                                                <abbr title="delete">
-                                                    <a href="/delproduct/{{i.id}}/" class="proddel">
-                                                        <span class="material-symbols-outlined">delete</span>
-                                                    </a>
-                                                </abbr>
-                                                <abbr title="edit">
-                                                    <a href="/editProduct/{{i.id}}" class="prodedit">
-                                                        <span class="material-symbols-outlined">edit</span>
-                                                    </a>
-                                                </abbr>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
+                <div class="container-fluid">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <a href="/addprod/" class="btn btn-primary">Add Product</a>
+                    </form>
+                    <div class="row">
+                        <!-- Products Content -->
+                        {% for i in prod %}
+                        <div class="col-lg-4 col-md-3 col-sm-4 col-6 mt-2">
+                            <div class="card card-container">
+                                <img src="{{i.banPic.url}}" class="card-img-top px-2" alt="Card Image" height="170px">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="height: 24px;">{{i.name}}</h5>
+                                </div>
+                                <!-- Card detail to be displayed on hover -->
+                                <div class="card-detail">
+                                    <p>{{i.desc}}</p>
+                                    <abbr title="delete">
+                                        <a href="/delproduct/{{i.id}}/" class="proddel">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </a>
+                                    </abbr>
+                                    <abbr title="edit">
+                                        <a href="/editProduct/{{i.id}}" class="prodedit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </a>
+                                    </abbr>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -168,4 +219,7 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}

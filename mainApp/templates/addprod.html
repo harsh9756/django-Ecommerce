@@ -5,8 +5,9 @@
 <script src="{% static 'js/myjs.js' %}"></script>
 {% endblock %}
 {% block body %}
+<button style="text-decoration: none;border: none;border-bottom: 1px solid black; background-color: transparent;" onclick="goBack()">Back</button>
 <div class="container">
-    <form class="my-3 py-3 mx-5" method="POST" enctype="multipart/form-data">
+    <form class="my-3 py-3 mx-2 mx-md-5" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <h4>Product Details</h4>
         <div class="mx-2">
@@ -15,72 +16,75 @@
                 <input type="text" autocomplete="off" class="form-control" name="name">
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3"><label class="form-label">Category</label>
+                <div class="col-12 col-md-4 mb-3">
+                    <label class="form-label">Category</label>
                     <input type="text" autocomplete="off" class="form-control" name="maincat">
                 </div>
-                <div class="col-md-3 mb-3"><label class="form-label">Brand</label>
+                <div class="col-12 col-md-4 mb-3">
+                    <label class="form-label">Brand</label>
                     <input type="text" autocomplete="off" class="form-control" name="brand">
                 </div>
-                <div class="col-md-3 mb-3"><label class="form-label">Availability</label>
-                    <select name="stock" class="form-control">
-                        <option value="True">In Stock</option>
-                        <option value="False">Out of Stock</option>
+                <div class="col-12 col-md-4 mb-3">
+                    <label class="form-label">Availability</label>
+                    <select name="stock" class="form-select">
+                        <option value=True>In Stock</option>
+                        <option value=False>Out of Stock</option>
                     </select>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3">
+                <div class="col-12 col-md-4 mb-3">
                     <label for="Bprice" class="form-label">Base Price</label>
                     <input type="number" autocomplete="off" class="form-control" name="Bprice" value=0>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-12 col-md-4 mb-3">
                     <label for="discount" class="form-label">Discount</label>
-                    <input type="text" autocomplete="off" class="form-control" name="discount" value=0>
+                    <input type="number" autocomplete="off" class="form-control" name="discount" value=0>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-12 col-md-4 mb-3">
                     <label for="Fprice" class="form-label">Final Price</label>
-                    <input type="text" autocomplete="off" class="form-control" name="Fprice" value=0>
+                    <input type="number" autocomplete="off" class="form-control" name="Fprice" value=0>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-12">
+                <div class="col-12">
                     <label for="desc" class="form-label">Product Description</label>
-                    <input type="textarea" autocomplete="off" class="form-control" name="desc">
+                    <textarea autocomplete="off" class="form-control" name="desc"></textarea>
                 </div>
             </div>
         </div>
         <h4><label class="form-label">Color</label></h4>
-        <div class="col-md-12 mx-2 my-2">
-            <input type="textarea" autocomplete="off" class="form-control" name="color">
+        <div class="col-12 mx-2 my-2">
+            <input type="text" autocomplete="off" class="form-control" name="color">
         </div>
         <h4><label class="form-label">Size</label></h4>
-        <div class="col-md-12 mx-2">
-            <input type="textarea" autocomplete="off" class="form-control" name="size">
+        <div class="col-12 mx-2">
+            <input type="text" autocomplete="off" class="form-control" name="size">
         </div>
         <h4 style="display: inline;">Properties </h4> (Eg:- material,weight etc)
-        <div class="col-md-12 mx-2 my-2">
+        <div class="col-12 mx-2 my-2">
             <div class="row">
-                <div class="col-md-12 mx-2" id="inptContainer">
+                <div class="col-12" id="inptContainer">
                 </div>
             </div>
             <button class="btn py-2 mx-2 btn-success" onclick="addnewbtn(event)">Add New</button>
         </div>
         <h4>Banner Image </h4>
-        <div class="col-md-12 mx-2 my-2">
-            <div class="col-md-3 mx-2" id="fileContainer">
-                <input class="form-control" type="file" name="banimage" id="banimage">
+        <div class="col-12 mx-2 my-2">
+            <div class="col-12 col-md-4" id="fileContainer">
+                <input class="form-control" type="file" name="banimage" id="banimage" required>
             </div>
         </div>
         <h4>Additional Images </h4>(select multiple)
-        <div class="col-md-12 mx-2 my-2">
-            <div class="col-md-3 mx-2" id="fileContainer">
+        <div class="col-12 my-2">
+            <div class="col-12 col-md-4 mx-2" id="fileContainer">
                 <input class="form-control" type="file" name="addimages" multiple id="addimages">
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <button type="submit" class="btn py-2 px-4 btn-primary">Sumbit</button>
+            <button type="submit" class="btn py-2 px-4 btn-primary">Submit</button>
         </div>
-        <input type="number" name="counter" id="counter" value=1 hidden>
+        <input type="number" name="counter" id="counter" value=0 hidden>
     </form>
 </div>
 {% endblock %}

@@ -1,27 +1,30 @@
 {% extends 'index.html' %}
 {% load static %}
-{%block title%}
+{% block title %}
 <title>TrendCraze | Reset Password</title>
 {% endblock %}
 {% block body %}
-{% for i in messages%}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Go Back</button>
+{% for i in messages %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{i}}
+        {{ i }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
+    </div>
+{% endfor %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-6"></div>
-        <div class="col-lg-6">
+        <div class="col-md-12 col-lg-6 mx-auto">
             <form action="" method="post">
                 {% csrf_token %}
-                <h3>Enter Registered Email</h3>
-                <input type="text" name="email" class="form-control"> <br>
-                <button class="btn btn-primary w-50" type="submit">Send OTP</button>
+                <h3 class="text-center">Enter Registered Email</h3>
+                <div class="mb-3">
+                    <input type="text" name="email" class="form-control" placeholder="Enter Registered Email">
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-block" type="submit">Send OTP</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
 {% endblock %}

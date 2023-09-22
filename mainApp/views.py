@@ -50,32 +50,27 @@ def delwish(request,id):
     return HttpResponseRedirect('/cart/')
 
 
-def shop(request,mc,brn):
-    mainCat=mainCategory.objects.all()
-    br=Brand.objects.all()
-    pics=Pics.objects.all()
-    print(br)
-    if(mc=='all' and brn=='all'):
-        data=Product.objects.all()
-    elif(mc!='all' and brn=='all'):
-        data=Product.objects.filter(maincat=mainCategory.objects.get(name=mc))
-    elif(mc=='all' and brn!='all'):
-        data=Product.objects.filter(brand=Brand.objects.get(name=brn))
-    elif(mc!='all' and brn=='all'):
-        data=Product.objects.filter(maincat=mainCategory.objects.get(name=mc),)
-    elif(mc!='all' and brn!='all'):
-        data=Product.objects.filter(maincat=mainCategory.objects.get(name=mc),brand=Brand.objects.get(name=brn))
-    elif(mc=='all' and brn!='all'):
-        data=Product.objects.filter(brand=Brand.objects.get(name=brn))    
-    elif(mc!='all' and brn!='all'):
-        data=Product.objects.filter(maincat=mainCategory.objects.get(name=mc),brand=Brand.objects.get(name=brn))
-    return render(request,"shop.html",{"data":data,'pic':pics,"maincat":mainCat,'brand':br,'mc':mc,'brn':brn,'act':actype})
+from django.db.models import Q
+
+def shop(request, mc, brn):
+    mainCat = mainCategory.objects.all()
+    br = Brand.objects.all()
+    pics = Pics.objects.all()
+    # Create an empty Q object to build the query dynamically
+    filter_query = Q()
+    if mc != 'all':
+        filter_query &= Q(maincat__name=mc)
+    if brn != 'all':
+        filter_query &= Q(brand__name=brn)
+    data = Product.objects.filter(filter_query)
+    return render(request, "shop.html", {"data": data, 'pic': pics, "maincat": mainCat, 'brand': br, 'mc': mc, 'brn': brn, 'act': actype})
 
 
 def productPage(request,id,):
     data=Product.objects.get(id=id)
     pics=Pics.objects.filter(product=id)
-    return render(request,'product.html',{'data':data,'act':actype,'pic':pics})
+    json_data=json.loads(data.props)
+    return render(request,'product.html',{'data':data,'act':actype,'pic':pics,'props':json_data})
 
 
 def contact(request,):
@@ -218,7 +213,11 @@ def addprod(request,):
         p.maincat=request.POST.get('maincat')
         p.brand=request.POST.get('brand')
         p.banPic=request.FILES.get('banimage')
-        p.stock=request.POST.get('stock')
+        stock=request.POST.get('stock')
+        if(stock):
+            p.stock=True
+        else:
+            p.stock=False
         p.baseprice=request.POST.get('Bprice')
         p.discount=request.POST.get('discount')
         p.finalPrice=request.POST.get('Fprice')
@@ -231,13 +230,13 @@ def addprod(request,):
         except:
             m.name=p.maincat
             b.name=p.brand
-            # m.save()
+            m.save()
             b.save()
             print(b.name)
         # Properties of product
         counter=request.POST.get('counter')
         counter=int(counter)
-        i=1
+        i=0
         propdict = {}
         while(i<counter):
             x=request.POST.get('propkey'+str(i))
@@ -246,8 +245,7 @@ def addprod(request,):
             i+=1
         jsondata=json.dumps(propdict)
         p.props=jsondata
-        # p.save()
-
+        p.save()
         # Saving multiple images
         images=request.FILES.getlist('addimages')
         for img in images:
@@ -271,9 +269,8 @@ def delimg(request,id,prid):
 
 
 def editprod(request,id):
-    data=Product.objects.filter(id=id)
+    data=Product.objects.get(id=id)
     pics=Pics.objects.filter(product=id)
-    data=data[0]
     json_data=json.loads(data.props)
     if(request.method=="POST"):
         data.name=request.POST.get('name')
@@ -333,13 +330,13 @@ def checkout(request):
             for i in cart:
                 d[str(i.prodId.id)]=str(i.q)
                 c.total=c.total+i.prodId.finalPrice*i.q
+            jsdata=json.dumps(d)
             if(c.total>1000):
                 pass
             else:
                 c.shipping=150
             c.finalAmt=c.total+c.shipping
             mode=request.POST.get('mode')
-            jsdata=json.dumps(d)
             c.products=jsdata
             if(mode=='COD'):
                 c.paymentStatus=2
@@ -362,6 +359,41 @@ def checkout(request):
                                                     'user':buyer
                                                     })
     return render(request,"checkout.html",{'buyer':buyer,'cart':cart,'finalAmt':finalAmt})
+
+
+def buynow(request,id):
+    buyer=Profile.objects.get(username=request.user)
+    prod=Product.objects.get(id=id)
+    c=Checkout()
+    c.buyer=buyer
+    c.total=prod.finalPrice
+    c.shipping=0
+    c.products=prod.id
+    if c.total<=1000 and c.total>0:
+        shipping=150
+    c.finalAmt=c.total+shipping
+    mode=request.POST.get('mode')
+    if(request.method=='POST'):
+        if(mode=="COD"):
+            c.paymentStatus=2
+            c.mode=1
+            c.save()
+            messages.success(request,"Your order has been placed successfully")                
+            return HttpResponseRedirect('/profile/')
+        else:
+            c.mode=2
+            amount = int(c.finalAmt*100)  # The amount you want to charge in paise (e.g., 1000 for ₹10)
+            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+            payment = client.order.create({"amount": amount, "currency": "INR"})
+            c.save()
+            return render(request,'pay2.html',{'buyer':buyer,'cart':prod,
+                                                'finalAmt':c.finalAmt,
+                                                'amount':amount,
+                                                'api_key':settings.RAZORPAY_KEY_ID,
+                                                'order_id':payment['id'],
+                                                'user':buyer
+                                                })
+    return render(request,'buynow.html',{'buyer':buyer,'prod':prod,'final':c.finalAmt})
 
 
 def success(request,rppid,rpoid,rpsid):

@@ -11,16 +11,15 @@
 </style>
 {% endblock %}
 {% block body %}
-
 <div class="container mt-5">
-    {% for i in messages%}
+    {% for i in messages %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{i}}
+        {{ i }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+    </div>
     {% endfor %}
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-8 col-sm-10">
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
@@ -35,19 +34,19 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="login">
-                            <form method="POST" >
+                            <form method="POST">
                                 {% csrf_token %}
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" autocomplete="off" class="form-control" autocomplete="off" name="username">
-                                    <div  class="form-text">We'll never share your email with anyone else.
-                                    </div>
+                                    <input type="text" autocomplete="off" class="form-control" name="username">
+                                    <div class="form-text">We'll never share your email with anyone else.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" autocomplete="off" class="form-control" name="password" required>
                                 </div>
-                                <button name="button" value="login" type="submit" class="btn btn-primary">Login</button> <br>
+                                <button name="button" value="login" type="submit" class="btn btn-primary">Login</button>
+                                <br>
                                 <a href="/resetPass/">Forgot Password? Reset</a>
                             </form>
                         </div>
@@ -55,24 +54,23 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 <div class="mb-3">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" autocomplete="off" class="form-control" name="name" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Phone</label>
-                                        <input type="number" autocomplete="off" class="form-control" name="phone" required>
-                                    </div>
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" autocomplete="off" class="form-control" name="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="number" autocomplete="off" class="form-control" name="phone" required>
+                                </div>
+                                <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
                                     <input type="email" autocomplete="off" class="form-control" name="email" aria-describedby="email-help"
-                                    required>
-                                    <div class="form-text">We'll never share your email with anyone
-                                        else.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" autocomplete="off" autocomplete="off" class="form-control" name="username" required>
-                                    </div>
+                                        required>
+                                    <div class="form-text">We'll never share your email with anyone else.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" autocomplete="off" class="form-control" name="username" required>
+                                </div>
                                 <div class="mb-3">
                                     <label for="new-password" class="form-label">Password</label>
                                     <input type="password" autocomplete="off" class="form-control" name="password" required>
@@ -87,7 +85,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="State" class="form-label">State</label>
-                                    <input type="text" autocomplete="off" class="form-control" name="state" State required>
+                                    <input type="text" autocomplete="off" class="form-control" name="state" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="pin" class="form-label">Pin Code</label>

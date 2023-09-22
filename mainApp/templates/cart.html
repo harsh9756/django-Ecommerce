@@ -1,49 +1,67 @@
 {% extends 'index.html' %}
-{% load cart%}
+{% load cart %}
 {% block title %}
 <title>TrendCraze | Cart</title>
 {% endblock %}
 {% block body %}
-<div class="container">
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Final Price</th>
-            <th></th>
-        </tr>
-        {% for i in products%}
-        <tr>
-            <td style="width: 105px;"><img src="{{i.prodId.banPic.url}}" alt="" width="100px" height="120px"></td>
-            <td>{{i.prodId.name}}</td>
-            <td>{{i.prodId.finalPrice}}</td>
-            <td>
-                <form action="/updateQ/{{i.prodId.id}}" method="POST">
-                    {% csrf_token %}
-                    <input type="number" name="q" value="{{i.q}}" style="width: 35%;">
-                    <button class="btn btn-primary" style="font-size: 10px; padding: 2px;"><span class="material-symbols-outlined" >upgrade</span></button>
-                </form>
-            </td>
-            <td>{{request|mult:i}}</td>
-            <td>
-                <a href="/delwish/{{i.prodId.id}}/">
-                    <span class="material-symbols-outlined">delete</span>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-            <h5>Total Price:- Rs{{total}}</h5>  
-            <h5>Shipping:- Rs{{shipping}}</h5>  
-            <h5>Final Amount:- Rs{{finalAmt}}</h5>  
-            {% if finalAmt %}
-            <a href="/checkout/" class="btn btn-primary">Proceed to Checkout</a>
-            {% else %}
-            <a href="" class="btn btn-primary">Proceed to Checkout</a>
-            {% endif %}
-
-</div>
+<button onclick="goBack()"style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mb-4">Your Shopping Cart</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price (Rs)</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Subtotal (Rs)</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in products %}
+                        <tr>
+                            <td class="text-center">
+                                <img src="{{ i.prodId.banPic.url }}" class="img-thumbnail" alt="{{ i.prodId.name }}" style="max-width: 100px;">
+                            </td>
+                            <td>{{ i.prodId.name }}</td>
+                            <td>Rs{{ i.prodId.finalPrice }}</td>
+                            <td>
+                                <form action="/updateQ/{{ i.prodId.id }}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="number" name="q" value="{{ i.q }}" class="form-control">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary" type="submit"><span class="material-symbols-outlined">Update</span></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>Rs{{ request|mult:i }}</td>
+                            <td>
+                                <a href="/delwish/{{ i.prodId.id }}" class="btn btn-danger btn-sm"><span class="material-symbols-outlined">Delete</span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Total Price: Rs{{ total }}</h4>
+                    <h4>Shipping: Rs{{ shipping }}</h4>
+                    <h3 class="mt-4">Final Amount: Rs{{ finalAmt }}</h3>
+                    {% if finalAmt %}
+                    <a href="/checkout/" class="btn btn-primary ">Proceed to Checkout</a>
+                    {% else %}
+                    <a href="#" class="btn btn-primary  disabled">Checkout Disabled</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

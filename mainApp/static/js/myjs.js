@@ -1,4 +1,4 @@
-var counter = 1;
+var counter = 0;
 document.getElementById('counter').value=counter;
 function delbtn(id) {
   event.preventDefault();

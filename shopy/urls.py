@@ -5,7 +5,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+    2. Add a URL to urlpatterns:  path('', views.home,)
 Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
@@ -20,22 +20,23 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),                            
-    path("", views.home,name="Homepage"),
+    path("", views.home),
     path("editProduct/<int:id>", views.editprod),
-    path("contact/", views.contact,name="contact"),
+    path("contact/", views.contact),
     path("subscribe/", views.subs,),
     path("about/", views.about,),
     path("success/<str:rppid>/<str:rpoid>/<str:rpsid>", views.success,),
     path("enterOTP/<str:username>", views.enterOTP,),
     path("enterpass/<str:username>", views.enterPass,),
-    path("resetPass/", views.resetPass,name="contact"),
-    path("login/", views.login,name="login"),
-    path("logout/", views.logout,name="logout"),
-    path("update/", views.update,name="update"),
-    path("addcart/<int:num>", views.addcart,name="wish"),
-    path("cart/", views.viewcart,name="wish"),
-    path("addprod/", views.addprod,name="addprod"),
+    path("resetPass/", views.resetPass),
+    path("login/", views.login),
+    path("logout/", views.logout),
+    path("update/", views.update),
+    path("addcart/<int:num>", views.addcart),
+    path("cart/", views.viewcart),
+    path("addprod/", views.addprod),
     path("profile/", views.profile),
+    path("buynow/<int:id>", views.buynow),
     path("checkout/", views.checkout,),
     path("cancelorder/<int:id>", views.cancelorder,),
     path("updateQ/<int:id>", views.updateQuan,),

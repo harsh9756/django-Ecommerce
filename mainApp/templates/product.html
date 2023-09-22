@@ -1,19 +1,19 @@
 {% extends 'index.html' %}
-</style>
 {% block title %}
 <title>TrendCraze | Product</title>
 {% endblock %}
 {% block body %}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
 <div class="container-fluid">
     <div class="row">
-        <div id="carouselExampleIndicators" class="carousel     slide col-lg-4 col-md-8 col-12">
+        <div id="carouselExampleIndicators" class="carousel slide col-lg-4 col-md-8 col-12">
             <div class="carousel-inner">
                 <div class="carousel-item my-2 active">
-                    <img src={{data.banPic.url}} width="80%" style="margin-left: 10%;" alt="..." height="400px">
+                    <img src="{{ data.banPic.url }}" class="img-fluid" alt="Product Image">
                 </div>
                 {% for i in pic %}
                 <div class="carousel-item my-2">
-                    <img src={{i.img.url}} width="80%" style="margin-left: 10%;" alt="..." height="400px">
+                    <img src="{{ i.img.url }}" class="img-fluid" alt="Product Image">
                 </div>
                 {% endfor %}
             </div>
@@ -28,63 +28,98 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="container contamt-3 mb-5 col-lg-5 col-md-3 col-8 justify-content-center">
-
-            <h1>{{data.name}}</h1>
-            <span class="price">
-                <h3 style="display: Inline;">Price: </h3><strike>Rs{{data.baseprice}}</strike>&nbsp;
-            </span>
-            <span class="price">Rs{{data.finalPrice}}</span>
-            <table class="table table-light table-striped table-hover">
-                <tr>
-                    <th>Main-Category</th>
-                    <td>{{data.maincat}}</td>
-                </tr>
-                <tr>
-                    <th>Brand</th>
-                    <td>{{data.brand}}</td>
-                </tr>
-                <tr>
-                    <th>Base-Price</th>
-                    <td>Rs {{data.baseprice}}</td>
-                </tr>
-                <tr>
-                    <th>Discount</th>
-                    <td>Rs {{data.discount}}</td>
-                </tr>
-                <tr>
-                    <th>Color</th>
-                    <td>{{data.color}}</td>
-                </tr>
-                <tr>
-                    <th>Size</th>
-                    <td>{{data.size}}</td>
-                </tr>
-                <tr>
-                    <th>Stock</th>
-                    {% if Product.stock%}
-                    <td>In Stock</td>
-                    {% else %}
-                    <td>Out of Stock</td>
-                    {% endif %}
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{data.desc}}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <form action="/addcart/{{data.id}}" method="POST">
+        <div class="container col-lg-6 col-md-12 col-12 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ data.name }}</h1>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="price">
+                            <h3 style="display: inline;">Price:</h3>
+                            <strike class="ms-2 text-muted">Rs {{ data.baseprice }}</strike>
+                            <span class="ms-2 text-success">Rs {{ data.finalPrice }}</span>
+                        </div>
+                        <div class="stock-status">
+                            {% if data.stock %}
+                            <span class="badge bg-success">In Stock</span>
+                            {% else %}
+                            <span class="badge bg-danger">Out of Stock</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table table-bordered table-striped mt-3">
+                        <tr>
+                            <th style="width: 30%;">Main Category</th>
+                            <td>{{ data.maincat }}</td>
+                        </tr>
+                        <tr>
+                            <th>Brand</th>
+                            <td>{{ data.brand }}</td>
+                        </tr>
+                        <tr>
+                            <th>Base Price</th>
+                            <td>Rs {{ data.baseprice }}</td>
+                        </tr>
+                        <tr>
+                            <th>Discount</th>
+                            <td>Rs {{ data.discount }}</td>
+                        </tr>
+                        <tr>
+                            <th>Color</th>
+                            <td>{{ data.color }}</td>
+                        </tr>
+                        <tr>
+                            <th>Size</th>
+                            <td>{{ data.size }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ data.desc }}</td>
+                        </tr>
+                    </table>
+                    <div class="text-center mt-3">
+                        <form action="/addcart/{{ data.id }}" method="POST">
                             {% csrf_token %}
-                            <input type="number" name="q" class="form-control" min="1" value="1">
-                    </td>
-                    <td>
-                        <a type="submit" class="btn btn-primary">Buy Now</a>
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </td>
-                </tr>
-            </table>
+                            <div class="input-group">
+                                <input type="number" name="q" class="form-control" min="1" value="1">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    <a href="/buynow/{{ data.id }}" class="btn btn-success ms-2">Buy Now</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Styling for the "Additional Details" link -->
+            <style>
+                .btn-info {
+                    background-color: #7a472b;
+                    color: #fff;
+                    border: none;
+                }
+
+                .btn-info:hover {
+                    background-color: #256c6a;
+                }
+            </style>
+            <a class="mt-3 btn btn-info" type="a" data-bs-toggle="collapse" data-bs-target="#tableCollapse"
+                aria-expanded="false" aria-controls="tableCollapse">
+                Additional Details
+            </a>
+            <!-- Collapsible table -->
+            <div class="collapse mt-3" id="tableCollapse">
+                <table class="table table-striped table-bordered">
+                    {% for key, value in props.items %}
+                    <tr>
+                        <th>{{ key }}</th>
+                        <td>{{ value }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

@@ -1,25 +1,30 @@
 {% extends 'index.html' %}
 {% load static %}
-{%block title%}
+{% block title %}
 <title>TrendCraze | Reset Password</title>
 {% endblock %}
 {% block body %}
-{% for i in messages%}
+{% for i in messages %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{i}}
+        {{ i }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
+    </div>
+{% endfor %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-6"></div>
-        <div class="col-lg-6">
+        <div class="col-md-12 col-lg-6 mx-auto">
             <form action="" method="post">
                 {% csrf_token %}
-                <h3>Enter New Password</h3>
-                <input type="text" name="password" class="form-control" placeholder="Enter New Password"> <br>
-                <input type="text" name="cpassword" class="form-control" placeholder="Confirm Password"> <br>
-                <button class="btn btn-primary w-50" type="submit">Change Password</button>
+                <h3 class="text-center">Enter New Password</h3>
+                <div class="mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Enter New Password">
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="cpassword" class="form-control" placeholder="Confirm Password">
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-block" type="submit">Change Password</button>
+                </div>
             </form>
         </div>
     </div>

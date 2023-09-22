@@ -33,13 +33,18 @@ def  payMode(request,i):
     
 @register.filter("products")
 def  products(request,i):
-    prods=i.products
-    data=json.loads(prods)
-    x=[]
-    for key,value in data.items():
-        product=Product.objects.get(id=key)
-        x.append(product)
-    return x
+    try:
+        prods=i.products
+        data=json.loads(prods)
+        x=[]
+        for key,value in data.items():
+            product=Product.objects.get(id=key)
+            x.append(product)
+        return x
+    except:
+        x=Product.objects.filter(id=i.products)
+        print(x)
+        return x
 
 @register.filter("paynow")
 def  paynow(request,i):

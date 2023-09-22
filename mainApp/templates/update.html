@@ -3,39 +3,39 @@
 <title>TrendCraze | Update</title>
 {% endblock %}
 {% block body %}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
 <div class="container">
-    <form class="my-3 py-3 mx-5 w-50" method="POST" enctype="multipart/form-data">
+    <form class="my-3 py-3 mx-2 mx-md-auto w-100 w-md-50" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" autocomplete="off" class="form-control" value={{data.name}}  name="name"  required>
+                <input type="text" autocomplete="off" class="form-control" value="{{ data.name }}" name="name" required>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="number" autocomplete="off" class="form-control" value={{data.phone}} name="phone" required>
+                <input type="number" autocomplete="off" class="form-control" value="{{ data.phone }}" name="phone" required>
             </div>
             <label for="email" class="form-label">Email address</label>
-            <input type="email" autocomplete="off" class="form-control" value={{data.email}} name="email" aria-describedby="email-help"
-                required>
+            <input type="email" autocomplete="off" class="form-control" value="{{ data.email }}" name="email" aria-describedby="email-help" required>
         </div>
         <div class="mb-3">
             <label for="City" class="form-label">City</label>
-            <input type="text" autocomplete="off" class="form-control" value={{data.city}} name="city" required>
+            <input type="text" autocomplete="off" class="form-control" value="{{ data.city }}" name="city" required>
         </div>
         <div class="mb-3">
             <label for="State" class="form-label">State</label>
-            <input type="text" autocomplete="off" class="form-control" value={{data.state}} name="state" State required>
+            <input type="text" autocomplete="off" class="form-control" value="{{ data.state }}" name="state" required>
         </div>
         <div class="mb-3">
             <label for="pin" class="form-label">Pin Code</label>
-            <input type="number" autocomplete="off" class="form-control" value={{data.pin}} name="pin" required>
+            <input type="number" autocomplete="off" class="form-control" value="{{ data.pin }}" name="pin" required>
         </div>
         <div class="mb-3">
             <label for="pin" class="form-label">Update Picture</label>
             <input type="file" class="form-control">
         </div>
-        <button name="button" type="submit" class="btn btn-primary w-50">Update</button>
+        <button name="button" type="submit" class="btn btn-primary btn-block">Update</button>
     </form>
 </div>
 {% endblock %}

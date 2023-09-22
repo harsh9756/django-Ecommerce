@@ -1,20 +1,21 @@
 {% extends 'index.html' %}
 {% load static %}
 
-{%block title%}
+{% block title %}
 <title>TrendCraze | Contact</title>
 {% endblock %}
-
 {% block body %}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-5 col-lg-6 mx-auto ">
-            <div style="overflow:hidden;height: 100%;;position: relative;"><iframe width="100%" height="100%"
+        <div class="col-lg-6 mx-auto">
+            <div style="overflow:hidden;height: 100%;;position: relative;">
+                <iframe width="100%" height="100%"
                     src="https://maps.google.com/maps?&amp;hl=en&amp;q=Buxer%20chowk%2C%20Meerut+(MyShop)&amp;ie=UTF8&amp;t=&amp;z=10&amp;iwloc=B&amp;output=embed"
                     frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
         </div>
-        <div class="col-md-5 col-lg-5 mx-auto">
+        <div class="col-lg-5 mx-auto">
             <h2>Contact Us</h2>
             <form method="POST" action="/contact/">
                 {% csrf_token %}
@@ -27,17 +28,17 @@
                     <input type="email" class="form-control" name="email" placeholder="Your Email">
                 </div>
                 <div class="form-group">
-                    <label for="email">Subject</label>
+                    <label for="subject">Subject</label>
                     <input type="text" class="form-control" name="subject" placeholder="Your Subject">
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
                     <textarea class="form-control" name="message" rows="4" placeholder="Your Message"></textarea>
-                </div> <br>
+                </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </div>
-
 {% endblock %}

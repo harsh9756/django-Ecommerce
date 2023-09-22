@@ -1,50 +1,53 @@
 {% extends 'index.html' %}
 {% load static %}
 
-</style>
 {% block title %}
 <title>TrendCraze | About</title>
 {% endblock %}
+
 {% block body %}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Back</button>
 <section id="about" class="py-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
                 <h3 class="display-4">
-                    Welcome to TrendCraze                  
+                    Welcome to TrendCraze
                 </h3>
                 <hr>
-                At MyShop, we're more than just an online store; we're your trusted shopping partner,
-                curating the finest products to enhance your lifestyle. We believe in the power of seamless, enjoyable
-                shopping experiences, and we're passionate about delivering top-quality products that meet your needs. <br> <br>
-
-                <h4>What Sets Us Apart</h4> <hr>
-                <h5>Quality First:</h5> We're committed to offering only the best. Every product in our catalog is carefully
-                selected, rigorously tested, and sourced from trusted suppliers. We believe in quality over quantity.
-
-                <h5>Customer-Centric:</h5> You, our valued customers, are at the heart of everything we do. We pride ourselves on
-                exceptional customer service, quick response times, and hassle-free returns. Your satisfaction is our
-                priority.
-
-                <h5>Diverse Selection:</h5> Whether you're a fashion-forward trendsetter, a tech enthusiast, or a home decor
-                aficionado, our diverse range of products has something for everyone. Explore a world of choices that
-                cater to your unique tastes.
-
-                <h5>Sustainability:</h5> We're mindful of our impact on the environment. [Include details about your
-                sustainability initiatives, such as eco-friendly packaging or products.]
+                <p>
+                    At MyShop, we're more than just an online store; we're your trusted shopping partner,
+                    curating the finest products to enhance your lifestyle. We believe in the power of seamless, enjoyable
+                    shopping experiences, and we're passionate about delivering top-quality products that meet your needs.
+                </p>
+                <h4>What Sets Us Apart</h4>
                 <hr>
-                <br> <br>
+                <h5>Quality First:</h5>
+                <p>We're committed to offering only the best. Every product in our catalog is carefully
+                    selected, rigorously tested, and sourced from trusted suppliers. We believe in quality over quantity.</p>
 
+                <h5>Customer-Centric:</h5>
+                <p>You, our valued customers, are at the heart of everything we do. We pride ourselves on
+                    exceptional customer service, quick response times, and hassle-free returns. Your satisfaction is our
+                    priority.</p>
+
+                <h5>Diverse Selection:</h5>
+                <p>Whether you're a fashion-forward trendsetter, a tech enthusiast, or a home decor
+                    aficionado, our diverse range of products has something for everyone. Explore a world of choices that
+                    cater to your unique tastes.</p>
+
+                <h5>Sustainability:</h5>
+                <p>We're mindful of our impact on the environment. [Include details about your
+                    sustainability initiatives, such as eco-friendly packaging or products.]</p>
+                <hr>
                 <h4>Join Us on This Journey</h4>
-                Thank you for choosing MyShop as your shopping destination. We invite you to explore
-                our website, discover exceptional products, and experience the joy of effortless online shopping. Join
-                us on this exciting journey, and let's create memorable moments together.
-
-
-                Feel free to contact us anytime with your questions, feedback, or inquiries. We're here to serve you.
+                <p>Thank you for choosing MyShop as your shopping destination. We invite you to explore
+                    our website, discover exceptional products, and experience the joy of effortless online shopping. Join
+                    us on this exciting journey, and let's create memorable moments together.</p>
+                <p>Feel free to contact us anytime with your questions, feedback, or inquiries. We're here to serve you.</p>
             </div>
             <div class="col-lg-4">
-                <img src="{% static 'images/team.jpg' %}" alt="Our Team" width="100%">
+                <img src="{% static 'images/team.jpg' %}" alt="Our Team" class="img-fluid" width="100%">
             </div>
         </div>
     </div>

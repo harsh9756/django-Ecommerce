@@ -5,23 +5,24 @@
 <script src="{% static 'js/myjs.js' %}"></script>
 {% endblock %}
 {% block body %}
+<button onclick="goBack()" style="background-color: #2b7a78; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Go Back</button>
 <div class="container">
-    <form class="my-3 py-3 mx-5" method="POST" enctype="multipart/form-data">
+    <form class="my-3 py-3 mx-lg-5 mx-md-3 mx-sm-2 mx-1" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <h4>Product Details</h4>
         <div class="mx-2">
             <div class="mb-3">
                 <label class="form-label">Product Name</label>
-                <input type="text" autocomplete="off" class="form-control" name="name" value="{{i.name}}">
+                <input type="text" autocomplete="off" class="form-control" name="name" value="{{ i.name }}">
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3"><label class="form-label">Category</label>
-                    <input type="text" autocomplete="off" class="form-control" name="maincat" value="{{i.maincat}}">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3"><label class="form-label">Category</label>
+                    <input type="text" autocomplete="off" class="form-control" name="maincat" value="{{ i.maincat }}">
                 </div>
-                <div class="col-md-3 mb-3"><label class="form-label">Brand</label>
-                    <input type="text" autocomplete="off" class="form-control" name="brand" value="{{i.brand}}">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3"><label class="form-label">Brand</label>
+                    <input type="text" autocomplete="off" class="form-control" name="brand" value="{{ i.brand }}">
                 </div>
-                <div class="col-md-3 mb-3"><label class="form-label">Availability</label>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3"><label class="form-label">Availability</label>
                     <select name="stock" class="form-control">
                         <option value="True">In Stock</option>
                         <option value="False">Out of Stock</option>
@@ -29,43 +30,48 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="Bprice" class="form-label">Base Price</label>
-                    <input type="number" autocomplete="off" class="form-control" name="Bprice" value={{i.baseprice}}>
+                    <input type="number" autocomplete="off" class="form-control" name="Bprice"
+                        value="{{ i.baseprice }}">
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="discount" class="form-label">Discount</label>
-                    <input type="text" autocomplete="off" class="form-control" name="discount" value={{i.discount}}>
+                    <input type="number" autocomplete="off" class="form-control" name="discount"
+                        value="{{ i.discount }}">
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="Fprice" class="form-label">Final Price</label>
-                    <input type="text" autocomplete="off" class="form-control" name="Fprice" value={{i.finalPrice}}>
+                    <input type="number" autocomplete="off" class="form-control" name="Fprice"
+                        value="{{ i.finalPrice }}">
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-12">
+                <div class="col-lg-12">
                     <label for="desc" class="form-label">Product Description</label>
-                    <input type="textarea" autocomplete="off" class="form-control" name="desc" value="{{i.desc}}">
+                    <textarea class="form-control" name="desc" rows="4">{{ i.desc }}</textarea>
                 </div>
             </div>
         </div>
         <h4><label class="form-label">Color</label></h4>
-        <div class="col-md-12 mx-2 my-2">
-            <input type="textarea" autocomplete="off" class="form-control" name="color" value="{{i.color}}">
+        <div class="col-lg-12 mx-2 my-2">
+            <input type="text" autocomplete="off" class="form-control" name="color" value="{{ i.color }}">
         </div>
         <h4><label class="form-label">Size</label></h4>
-        <div class="col-md-12 mx-2">
-            <input type="textarea" autocomplete="off" class="form-control" name="size" value="{{i.size}}">
+        <div class="col-lg-12 mx-2">
+            <input type="text" autocomplete="off" class="form-control" name="size" value="{{ i.size }}">
         </div>
-        <h4 class="mt-2" style="display: inline;">Properties </h4> (Eg:- material,weight etc)
-        <div class="col-md-12 mx-2 my-2">
+        <h4 class="mt-2" style="display: inline;">Properties </h4> (Eg:- material, weight, etc)
+        <div class="col-lg-12 mx-2 my-2">
             <div class="row">
-                <div class="col-md-12 mx-2 w-" id="inptContainer">
+                <div class="col-lg-12 mx-2 w-" id="inptContainer">
                     {% for key, value in json_data.items %}
-                    <div>
-                        <input type="text" autocomplete="off" class="form-control w-30" value={{key}}>
-                        <input type="text" autocomplete="off" class="form-control w-30" value={{value}}>
-                        <button onclick="deleteproper(this)" class="btn btn-danger">X</button>
+                    <div class="row">
+                        <div>
+                            <input type="text" autocomplete="off" class="form-control w-30" value={{key}}>
+                            <input type="text" autocomplete="off" class="form-control w-30" value={{value}}>
+                            <button onclick="deleteproper(this)" class="btn btn-danger">X</button>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -73,10 +79,10 @@
             <button class="btn py-2 mx-2 btn-success mt-1" onclick="addnewbtn(event)">Add New</button>
         </div>
         <h4>Banner Image </h4>
-        <div class="col-md-12 mx-2 my-2">
-            <div class="col-md-3 mx-2" id="fileContainer">
+        <div class="col-lg-12 mx-2 my-2">
+            <div class="col-lg-3 col-md-4 col-sm-5 col-6 mx-2" id="fileContainer">
                 <input class="form-control" type="file" name="banimage" id="banimage">
-                <img class="mx-2 mt-2" src="{{i.banPic.url}}" alt="" width="40%" class="mt-2">
+                <img class="mx-2 mt-2" src="{{ i.banPic.url }}" alt="" width="40%" class="mt-2">
             </div>
         </div>
         <h4 style="display: inline;">Additional Images </h4>(select multiple)
@@ -84,24 +90,24 @@
             <div class="col-lg-4 mx-2" id="fileContainer">
                 <input class="form-control" type="file" name="addimages" multiple id="addimages">
             </div>
-                <div class="row mx-2 my-2">
-                    {% for j in pic %}
-                    <!-- Card with hover effect -->
-                    <div class="col-lg-2 col-sm-4">
-                        <div class="card card-container">
-                            <img src="{{j.img.url}}" class="card-img-top" alt="Card Image" height="100%">
-                            <!-- Card detail to be displayed on hover -->
-                            <div class="card-detail">
-                                <abbr title="delete">
-                                    <a href="/delimg/{{j.id}}/{{i.id}}" class="proddel">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </a>
-                                </abbr>
-                            </div>
+            <div class="row mx-2 my-2">
+                {% for j in pic %}
+                <!-- Card with hover effect -->
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                    <div class="card card-container">
+                        <img src="{{ j.img.url }}" class="card-img-top" alt="Card Image" height="100%">
+                        <!-- Card detail to be displayed on hover -->
+                        <div class="card-detail">
+                            <abbr title="delete">
+                                <a href="/delimg/{{ j.id }}/{{ i.id }}" class="proddel">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </a>
+                            </abbr>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
+            </div>
         </div>
         <div class="d-flex justify-content-center">
         </div>
